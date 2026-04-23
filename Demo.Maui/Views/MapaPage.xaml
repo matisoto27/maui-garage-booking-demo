@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:helpers="clr-namespace:Demo.Maui.Helpers"
+             xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
+             xmlns:viewmodels="clr-namespace:Demo.Maui.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Demo.Maui.Views.MapaPage"
+             x:DataType="viewmodels:MapaViewModel"
+             Title="MapaPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <helpers:ConvertidorBooleanoInverso x:Key="ConvertidorBooleanoInverso" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid IsVisible="{Binding EstaCargando, Converter={StaticResource ConvertidorBooleanoInverso}}" RowDefinitions="*,Auto" RowSpacing="30" Padding="0,0,0,40">
+            <Grid>
+                <maps:Map x:Name="map" MapType="Street" />
+
+                <Border HeightRequest="60" Margin="0,40,0,0" HorizontalOptions="Center" VerticalOptions="Start" WidthRequest="380" ZIndex="1" Style="{StaticResource BorderStyle}">
+                    <HorizontalStackLayout Spacing="10" Margin="20,0" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="📍" FontSize="20" />
+                        <Label Text="{Binding Direccion}" FontSize="18" />
+                    </HorizontalStackLayout>
+                </Border>
+            </Grid>
+
+            <VerticalStackLayout Grid.Row="1" Spacing="15">
+                <Button Command="{Binding SiguienteCommand}" Text="Siguiente" BackgroundColor="{StaticResource VerdeExito}" Style="{StaticResource ButtonStyle}" />
+                <Button Command="{Binding VolverCommand}" Text="Volver" Style="{StaticResource ButtonStyle}" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <Grid IsVisible="{Binding EstaCargando}">
+            <VerticalStackLayout VerticalOptions="Center" Spacing="15">
+                <VerticalStackLayout Spacing="5">
+                    <ActivityIndicator IsRunning="{Binding EstaCargando}" HeightRequest="50" WidthRequest="50" />
+                    <Label Text="Cargando el mapa" TextColor="{StaticResource NegroSuave}" Style="{StaticResource H4Center}" />
+                </VerticalStackLayout>
+
+                <Label Text="Aguarde un momento por favor" TextColor="{StaticResource GrisAcero}" Style="{StaticResource Text16Center}" />
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

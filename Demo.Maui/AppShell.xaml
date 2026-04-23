@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Demo.Maui.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Demo.Maui.Views"
+    xmlns:local="clr-namespace:Demo.Maui"
+    Title="Demo.Maui"
+    NavBarIsVisible="False"
+    FlyoutBehavior="Disabled">
+
+    <ShellContent
+        Title="IniciarSesion"
+        ContentTemplate="{DataTemplate views:IniciarSesionPage}"
+        Route="IniciarSesion" />
+
+    <ShellContent
+        Title="Inicio"
+        ContentTemplate="{DataTemplate views:InicioPage}"
+        Route="Inicio" />
+
+    <ShellContent
+        Title="Mapa"
+        ContentTemplate="{DataTemplate views:MapaPage}"
+        Route="Mapa" />
+
+    <ShellContent
+        Title="InformacionDueno"
+        ContentTemplate="{DataTemplate views:InformacionDuenoPage}"
+        Route="InformacionDueno" />
+
+    <ShellContent
+        Title="SolicitarReserva"
+        ContentTemplate="{DataTemplate views:SolicitarReservaPage}"
+        Route="SolicitarReserva" />
+
+    <ShellContent
+        Title="EsperarConfirmacion"
+        ContentTemplate="{DataTemplate views:EsperarConfirmacionPage}"
+        Route="EsperarConfirmacion" />
+
+    <ShellContent
+        Title="ReservaCliente"
+        ContentTemplate="{DataTemplate views:ReservaClientePage}"
+        Route="ReservaCliente" />
+
+</Shell>

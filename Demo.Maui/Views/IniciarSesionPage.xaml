@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:helpers="clr-namespace:Demo.Maui.Helpers"
+             xmlns:viewmodels="clr-namespace:Demo.Maui.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Demo.Maui.Views.IniciarSesionPage"
+             x:DataType="viewmodels:IniciarSesionViewModel"
+             Title="IniciarSesionPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <helpers:ConvertidorBooleanoInverso x:Key="ConvertidorBooleanoInverso" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <ScrollView IsVisible="{Binding EstaCargando, Converter={StaticResource ConvertidorBooleanoInverso}}">
+            <Grid ColumnDefinitions="*,340,*" Padding="0,40">
+                <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto" RowSpacing="20">
+                    <VerticalStackLayout Spacing="30">
+                        <Label Text="Gestión de Cocheras" Style="{StaticResource H1CenterVioleta}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="1" Spacing="40">
+                        <Label Text="Por favor, ingrese sus credenciales a continuación para ingresar." Style="{StaticResource Text18CenterGrisAcero}" />
+
+                        <Border IsVisible="{Binding ExisteError}" Stroke="#FCA5A5" StrokeShape="RoundRectangle 10" StrokeThickness="1" BackgroundColor="#FEE2E2" Padding="0,15">
+                            <VerticalStackLayout Spacing="6">
+                                <HorizontalStackLayout HorizontalOptions="Center" Spacing="6">
+                                    <Label Text="⚠" TextColor="{StaticResource AccionNegativa}" FontSize="20" VerticalTextAlignment="Center" />
+                                    <Label Text="Error" TextColor="{StaticResource AccionNegativa}" FontAttributes="Bold" FontSize="20" VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+
+                                <Label Text="{Binding MensajeError}" TextColor="{StaticResource AccionNegativa}" FontSize="16" HorizontalTextAlignment="Center" LineBreakMode="WordWrap" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <VerticalStackLayout Spacing="20" WidthRequest="300">
+                            <Border StrokeShape="RoundRectangle 10" Padding="10,0">
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="5">
+                                    <Label Text="👤" TextColor="{StaticResource Primary}" FontSize="20" VerticalTextAlignment="Center" />
+                                    <Entry Grid.Column="1" Placeholder="DNI" Text="{Binding Dni}" Keyboard="Numeric" VerticalTextAlignment="Center" Style="{StaticResource EntryStyle}" />
+                                </Grid>
+                            </Border>
+
+                            <Border StrokeShape="RoundRectangle 10" Padding="10,0">
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="5">
+                                    <Label Text="🔒" TextColor="{StaticResource Primary}" FontSize="20" VerticalTextAlignment="Center" />
+                                    <Entry Grid.Column="1" Placeholder="Contraseña" Text="{Binding Contrasena}" IsPassword="True" VerticalTextAlignment="Center" Style="{StaticResource EntryStyle}" />
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="2" Spacing="15" VerticalOptions="End">
+                        <Button Command="{Binding IniciarSesionCommand}" Text="Iniciar sesión" Style="{StaticResource ButtonStyle}" />
+                        <Button Command="{Binding RegistrarseCommand}" Text="Registrarse" TextColor="{StaticResource PrimaryDarkText}" BackgroundColor="White" BorderColor="{StaticResource Primary}" BorderWidth="1" Style="{StaticResource ButtonStyle}" />
+                        <Button Command="{Binding OlvidasteTuContrasenaCommand}" Text="¿Olvidaste tu contraseña?" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontSize="16" BackgroundColor="Transparent" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Grid>
+        </ScrollView>
+
+        <Grid IsVisible="{Binding EstaCargando}">
+            <VerticalStackLayout VerticalOptions="Center" Spacing="15">
+                <VerticalStackLayout Spacing="5">
+                    <ActivityIndicator IsRunning="{Binding EstaCargando}" HeightRequest="50" WidthRequest="50" />
+                    <Label Text="Cargando" TextColor="{StaticResource NegroSuave}" Style="{StaticResource H4Center}" />
+                </VerticalStackLayout>
+
+                <Label Text="Aguarde un momento por favor" TextColor="{StaticResource GrisAcero}" Style="{StaticResource Text16Center}" />
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

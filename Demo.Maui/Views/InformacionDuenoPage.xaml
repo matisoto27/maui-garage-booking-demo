@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:helpers="clr-namespace:Demo.Maui.Helpers"
+             xmlns:viewmodels="clr-namespace:Demo.Maui.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Demo.Maui.Views.InformacionDuenoPage"
+             x:DataType="viewmodels:InformacionDuenoViewModel"
+             Title="Información del dueño">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <helpers:ConvertidorBooleanoInverso x:Key="ConvertidorBooleanoInverso" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <ScrollView IsVisible="{Binding EstaCargando, Converter={StaticResource ConvertidorBooleanoInverso}}" BackgroundColor="{StaticResource Primary}">
+            <Grid ColumnDefinitions="*,340,*" Padding="0,40">
+                <Grid Grid.Column="1" RowDefinitions="200,Auto,Auto,*" RowSpacing="40">
+                    <Border StrokeShape="RoundRectangle 500" WidthRequest="200">
+                        <Image Source="dotnet_bot.png" />
+                    </Border>
+
+                    <VerticalStackLayout Grid.Row="1" Spacing="30">
+                        <Label Text="Información del dueño" Style="{StaticResource H1CenterWhite}" />
+
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="30">
+                            <Label Text="🪪" TextColor="White" FontSize="25" />
+                            <Label Grid.Column="1" Text="{Binding Dni}" FontSize="18" TextColor="White" />
+
+                            <Label Grid.Row="1" Text="👤" TextColor="White" FontSize="25" />
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding ApellidoNombre}" FontSize="18" TextColor="White" />
+
+                            <Label Grid.Row="2" Text="📞" TextColor="White" FontSize="25" />
+                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding Telefono}" FontSize="18" TextColor="White" />
+
+                            <Label Grid.Row="3" Text="⭐" TextColor="White" FontSize="25" />
+                            <VerticalStackLayout Grid.Row="3" Grid.Column="1">
+                                <Label Text="{Binding PuntuacionDueno}" FontSize="18" TextColor="White" />
+                                <Label IsVisible="{Binding MostrarTextoSinCalificacionesDeOtrosDueno}" Text="Aún no ha sido calificado por otros usuarios" TextColor="LightGray" FontSize="14" />
+                                <Label IsVisible="{Binding MostrarVerMasDueno}" Text="Ver calificaciones de otros usuarios" TextColor="{StaticResource VerdeExito}" FontAttributes="Bold" FontSize="18">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding VerMasDuenoCommand}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="2" Spacing="30">
+                        <Label Text="Sobre la cochera" Style="{StaticResource H1CenterWhite}" />
+
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="30">
+                            <Label Text="📍" TextColor="White" FontSize="25" />
+                            <Label Grid.Column="1" Text="{Binding DireccionCompleta}" FontSize="18" TextColor="White" />
+
+                            <Label Grid.Row="1" Text="🕒" TextColor="White" FontSize="25" />
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding EntreCalles}" FontSize="18" TextColor="White" />
+
+                            <Label Grid.Row="2" Text="💰" TextColor="White" FontSize="25" />
+                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding Precio}" FontSize="18" TextColor="White" />
+
+                            <Label Grid.Row="3" Text="⭐" TextColor="White" FontSize="25" />
+                            <VerticalStackLayout Grid.Row="3" Grid.Column="1">
+                                <Label Text="{Binding PuntuacionCochera}" FontSize="18" TextColor="White" />
+                                <Label IsVisible="{Binding MostrarTextoSinCalificacionesDeOtrosCochera}" Text="Aún no ha sido calificada por otros usuarios" TextColor="LightGray" FontSize="14" />
+                                <Label IsVisible="{Binding MostrarVerMasCochera}" Text="Ver calificaciones de otros usuarios" TextColor="{StaticResource VerdeExito}" FontAttributes="Bold" FontSize="18">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding VerMasCocheraCommand}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="3" Spacing="15" VerticalOptions="End">
+                        <Button Command="{Binding SiguienteCommand}" Text="Siguiente" BackgroundColor="{StaticResource VerdeExito}" Style="{StaticResource ButtonStyle}" />
+                        <Button Command="{Binding VolverCommand}" Text="Volver" TextColor="White" BackgroundColor="Transparent" BorderColor="#D1D5DB" BorderWidth="2" Style="{StaticResource ButtonStyle}" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Grid>
+        </ScrollView>
+
+        <Grid IsVisible="{Binding EstaCargando}">
+            <VerticalStackLayout VerticalOptions="Center" Spacing="15">
+                <VerticalStackLayout Spacing="5">
+                    <ActivityIndicator IsRunning="{Binding EstaCargando}" HeightRequest="50" WidthRequest="50" />
+                    <Label Text="Cargando" TextColor="{StaticResource NegroSuave}" Style="{StaticResource H4Center}" />
+                </VerticalStackLayout>
+                <Label Text="Aguarde un momento por favor" TextColor="{StaticResource GrisAcero}" Style="{StaticResource Text16Center}" />
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

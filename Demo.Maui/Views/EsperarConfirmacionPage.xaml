@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:helpers="clr-namespace:Demo.Maui.Helpers"
+             xmlns:viewmodels="clr-namespace:Demo.Maui.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Demo.Maui.Views.EsperarConfirmacionPage"
+             x:DataType="viewmodels:EsperarConfirmacionViewModel"
+             Title="EsperarConfirmacionPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <helpers:ConvertidorBooleanoInverso x:Key="ConvertidorBooleanoInverso" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <Grid ColumnDefinitions="*,340,*" Padding="0,40">
+            <Grid Grid.Column="1" RowDefinitions="50,*,Auto">
+
+                <Grid Grid.Row="1" VerticalOptions="Center">
+                    <VerticalStackLayout IsVisible="{Binding Confirmada}" Spacing="20">
+                        <VerticalStackLayout>
+                            <Label Text="✅" TextColor="Green" FontSize="100" HorizontalTextAlignment="Center" />
+                            <Label Text="¡Reserva confirmada!" Style="{StaticResource Text18Center}" />
+                        </VerticalStackLayout>
+
+                        <Label HorizontalTextAlignment="Center">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="El dueño te espera en:&#x0a;" FontSize="18" />
+                                    <Span Text="{Binding DireccionCompleta}" TextColor="Green" FontAttributes="Bold" FontSize="24" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Border StrokeShape="RoundRectangle 10" HorizontalOptions="Center">
+                            <Label Text="{Binding IngresoMenosCinco}" BackgroundColor="#F0F0F0" Padding="15" Style="{StaticResource H1}" />
+                        </Border>
+
+                        <Label Text="{Binding TextoCuentaRegresiva}" Style="{StaticResource Text18Center}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout IsVisible="{Binding Confirmada, Converter={StaticResource ConvertidorBooleanoInverso}}" HorizontalOptions="Center" Spacing="10">
+                        <ActivityIndicator IsRunning="{Binding Confirmada, Converter={StaticResource ConvertidorBooleanoInverso}}" HeightRequest="50" WidthRequest="50" />
+                        <Label Text="Esperando confirmación del dueño" TextColor="{StaticResource NegroSuave}" FontAttributes="Bold" FontSize="18" />
+                        <Label Text="{Binding TextoTiempoLimite}" HorizontalTextAlignment="Center" Style="{StaticResource Text18Center}" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <VerticalStackLayout Grid.Row="2" Spacing="15">
+                    <Button Command="{Binding SiguienteCommand}" Text="Siguiente" BackgroundColor="{StaticResource VerdeExito}" Style="{StaticResource ButtonStyle}" IsVisible="{Binding Confirmada}" />
+                    <Button Command="{Binding CancelarReservaCommand}" Text="Cancelar reserva" BackgroundColor="{StaticResource AccionNegativa}" Style="{StaticResource ButtonStyle}" IsVisible="{Binding Confirmada, Converter={StaticResource ConvertidorBooleanoInverso}}" />
+                </VerticalStackLayout>
+            </Grid>
+        </Grid>
+    </ScrollView>
+</ContentPage>

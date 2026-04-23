@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:helpers="clr-namespace:Demo.Maui.Helpers"
+             xmlns:viewmodels="clr-namespace:Demo.Maui.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Demo.Maui.Views.SolicitarReservaPage"
+             x:DataType="viewmodels:SolicitarReservaViewModel"
+             Title="SolicitarReservaPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <helpers:ConvertidorBooleanoInverso x:Key="ConvertidorBooleanoInverso" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <ScrollView IsVisible="{Binding EstaCargando, Converter={StaticResource ConvertidorBooleanoInverso}}" BackgroundColor="{StaticResource Primary}">
+            <Grid ColumnDefinitions="*,340,*" Padding="0,40">
+                <Grid Grid.Column="1" RowDefinitions="Auto,*" RowSpacing="30">
+
+                    <VerticalStackLayout Spacing="20">
+                        <Label Text="Solicitar reserva" Style="{StaticResource H1CenterWhite}" />
+
+                        <VerticalStackLayout>
+                            <Label Text="Hora actual" Style="{StaticResource Text22White}" />
+                            <Label Text="{Binding HoraActual}" Style="{StaticResource Text18White}" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Hora ingreso" Style="{StaticResource Text22White}" />
+                            <Border Padding="10,0" Stroke="Black" Style="{StaticResource BorderStyle}">
+                                <Picker ItemsSource="{Binding HorariosInicio}" SelectedIndex="{Binding IndiceHorarioSeleccionado, Mode=TwoWay}" Title="Seleccione una hora" FontSize="18" />
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Duración" Style="{StaticResource Text22White}" />
+                            <Border Padding="10,0" Stroke="Black" Style="{StaticResource BorderStyle}">
+                                <Picker ItemsSource="{Binding DuracionesDisponibles}" SelectedIndex="{Binding IndiceDuracionSeleccionado, Mode=TwoWay}" Title="{Binding TituloSelectorDuracion}" FontSize="18" IsEnabled="{Binding SelectorDuracionHabilitado}" />
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Hora de egreso" Style="{StaticResource Text22White}" />
+                            <Label Text="{Binding HoraEgreso}" Style="{StaticResource Text18White}" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Método de pago" Style="{StaticResource Text22White}" />
+                            <Border Padding="10,0" Stroke="Black" Style="{StaticResource BorderStyle}">
+                                <Picker ItemsSource="{Binding MetodosDePago}" SelectedIndex="{Binding IndiceMetodoSeleccionado, Mode=TwoWay}" Title="Seleccione método de pago" FontSize="18" />
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout>
+                            <Label Text="Precio por hora" Style="{StaticResource Text22White}" />
+                            <Label Text="{Binding PrecioActual}" Style="{StaticResource Text18White}" />
+                        </VerticalStackLayout>
+
+                        <Border Stroke="White" />
+
+                        <Label Style="{StaticResource Text24Center}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Total a pagar: " TextColor="White" />
+                                    <Span Text="{Binding MontoTotal}" TextColor="White" FontAttributes="Bold" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="1" Spacing="15" VerticalOptions="End">
+                        <Button Command="{Binding FinalizarCommand}" Text="Confirmar" BackgroundColor="{StaticResource VerdeExito}" Style="{StaticResource ButtonStyle}" />
+                        <Button Command="{Binding VolverCommand}" Text="Volver" BackgroundColor="Transparent" BorderColor="#D1D5DB" BorderWidth="2" Style="{StaticResource ButtonStyle}" />
+                    </VerticalStackLayout>
+
+                </Grid>
+            </Grid>
+        </ScrollView>
+
+        <Grid IsVisible="{Binding EstaCargando}">
+            <VerticalStackLayout VerticalOptions="Center" Spacing="15">
+                <VerticalStackLayout Spacing="5">
+                    <ActivityIndicator IsRunning="{Binding EstaCargando}" HeightRequest="50" WidthRequest="50" />
+                    <Label Text="Cargando datos de la reserva" TextColor="{StaticResource NegroSuave}" Style="{StaticResource H4Center}" />
+                </VerticalStackLayout>
+                <Label Text="Aguarde un momento por favor" TextColor="{StaticResource GrisAcero}" Style="{StaticResource Text16Center}" />
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

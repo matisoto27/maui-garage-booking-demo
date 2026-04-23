@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:helpers="clr-namespace:Demo.Maui.Helpers"
+             xmlns:viewmodels="clr-namespace:Demo.Maui.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Demo.Maui.Views.ReservaClientePage"
+             x:DataType="viewmodels:ReservaClienteViewModel"
+             Title="ReservaClientePage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <helpers:ConvertidorBooleanoInverso x:Key="ConvertidorBooleanoInverso" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+
+        <ScrollView IsVisible="{Binding EstaCargando, Converter={StaticResource ConvertidorBooleanoInverso}}">
+            <Grid ColumnDefinitions="*,340,*" Padding="0,40">
+                <Grid Grid.Column="1" RowDefinitions="Auto,Auto,Auto,Auto,*" RowSpacing="20">
+
+                    <VerticalStackLayout Spacing="20">
+
+                        <Label Text="Reserva en curso" Style="{StaticResource H2}" />
+
+                        <HorizontalStackLayout>
+                            <Label Text="Hora de ingreso:   " FontSize="18" />
+                            <Label Text="{Binding HoraIngreso}" Style="{StaticResource H4}" />
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout>
+                            <Label Text="Hora de egreso:    " FontSize="18" />
+                            <Label Text="{Binding HoraEgreso}" Style="{StaticResource H4}" />
+                        </HorizontalStackLayout>
+
+                    </VerticalStackLayout>
+
+                    <Border Grid.Row="1" Padding="0,15" Style="{StaticResource BorderStyle}">
+                        <VerticalStackLayout Spacing="10">
+
+                            <Label Text="Detalles de la reserva" Style="{StaticResource H4Center}" />
+
+                            <Label Style="{StaticResource Text18Center}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Forma de pago: " />
+                                        <Span Text="{Binding Reserva.FormaPago}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Label Style="{StaticResource Text18Center}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Total a pagar: $" />
+                                        <Span Text="{Binding Reserva.TotalAPagar}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Grid.Row="2" Padding="0,15" Style="{StaticResource BorderStyle}">
+                        <VerticalStackLayout Spacing="10">
+
+                            <Label Text="Información del dueño" Style="{StaticResource H4Center}" />
+
+                            <Label Style="{StaticResource Text18Center}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding Reserva.Dueno.Apellido}" />
+                                        <Span Text=", " />
+                                        <Span Text="{Binding Reserva.Dueno.Nombre}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Label Style="{StaticResource Text18Center}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="DNI: " />
+                                        <Span Text="{Binding Reserva.Dueno.Dni}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Label Style="{StaticResource Text18Center}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Teléfono: " />
+                                        <Span Text="{Binding Reserva.Dueno.Telefono}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <VerticalStackLayout Grid.Row="3">
+
+                        <Border IsVisible="{Binding MostrarTiempoRestante}" Padding="0,15" Style="{StaticResource BorderStyle}">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding TituloTiempoRestante}" Style="{StaticResource H4Center}" />
+                                <Label TextColor="{Binding ColorContador}" Text="{Binding CuentaRegresiva}" Style="{StaticResource Text28Center}" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border IsVisible="{Binding MostrarInformacionPago}" Margin="0,0,0,20" Padding="0,10" Style="{StaticResource BorderStyle}">
+                            <VerticalStackLayout Spacing="10">
+
+                                <Label Text="Datos para realizar el pago" Style="{StaticResource H4Center}" />
+
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="Alias" TextColor="#374151" FontSize="20" HorizontalTextAlignment="Center" />
+                                    <Label Text="{Binding Reserva.Dueno.Alias}" TextColor="#1E88E5" HorizontalTextAlignment="Center" Style="{StaticResource H2}" />
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="CVU" TextColor="#374151" FontSize="20" HorizontalTextAlignment="Center" />
+                                    <Label Text="{Binding Reserva.Dueno.Cvu}" TextColor="#1E88E5" HorizontalTextAlignment="Center" Style="{StaticResource H2}" />
+                                </VerticalStackLayout>
+
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border IsVisible="{Binding MostrarTotalAPagar}" Padding="10,15" Style="{StaticResource BorderStyle}">
+                            <VerticalStackLayout Spacing="20">
+
+                                <VerticalStackLayout Spacing="10">
+                                    <ActivityIndicator Color="#7C3AED" IsRunning="True" HeightRequest="40" WidthRequest="40" />
+                                    <Label Text="Esperando que el dueño confirme la recepción del pago" TextColor="#374151" Style="{StaticResource Text18Center}" />
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout>
+                                    <Label Text="Total a pagar" TextColor="#374151" Style="{StaticResource Text18Center}" />
+                                    <Label Text="{Binding TotalAPagar}" TextColor="{StaticResource AccionNegativa}" Style="{StaticResource H1Center}" />
+                                </VerticalStackLayout>
+
+                            </VerticalStackLayout>
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                    <Grid Grid.Row="4" IsVisible="{Binding MostrarMapaChat}" RowDefinitions="Auto,Auto" RowSpacing="15" VerticalOptions="End">
+
+                        <VerticalStackLayout>
+
+                            <Button
+                                IsVisible="{Binding MostrarBotonCancelar}"
+                                Command="{Binding CancelarReservaCommand}"
+                                Margin="0,0,0,10"
+                                Text="Cancelar reserva"
+                                FontSize="18"
+                                BackgroundColor="{StaticResource AccionNegativa}"
+                                CornerRadius="5"
+                                WidthRequest="300" />
+                            
+                            <VerticalStackLayout IsVisible="{Binding CortesiaCancelacion}">
+                                <Label Text="Tiempo de cortesía para cancelar:" Style="{StaticResource Text18Center}" />
+                                <Label Text="{Binding CuentaRegresivaCancelar}" TextColor="#D97706" Style="{StaticResource H5Center}" />
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Row="1" IsVisible="{Binding MostrarMapaChat}" Spacing="15">
+
+                            <Button Command="{Binding VerMapaCommand}" BackgroundColor="{StaticResource VerdeExito}" Text="Ver el mapa" Style="{StaticResource ButtonStyle}" />
+
+                            <Button Command="{Binding AbrirChatCommand}" Text="Abrir el chat" Style="{StaticResource ButtonStyle}" />
+
+                        </VerticalStackLayout>
+
+                    </Grid>
+
+                </Grid>
+            </Grid>
+        </ScrollView>
+        
+        <Grid IsVisible="{Binding EstaCargando}">
+
+            <VerticalStackLayout VerticalOptions="Center" Spacing="15">
+
+                <VerticalStackLayout Spacing="5">
+                    <ActivityIndicator IsRunning="{Binding EstaCargando}" HeightRequest="50" WidthRequest="50" />
+                    <Label Text="Cargando datos de la reserva" TextColor="{StaticResource NegroSuave}" Style="{StaticResource H4Center}" />
+                </VerticalStackLayout>
+
+                <Label Text="Aguarde un momento por favor" TextColor="{StaticResource GrisAcero}" Style="{StaticResource Text16Center}" />
+
+            </VerticalStackLayout>
+
+        </Grid>
+        
+    </Grid>
+    
+</ContentPage>
